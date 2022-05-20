@@ -2,7 +2,7 @@ const session = require('express-session');
 
 const sessionConfig = {
     name: 'chocolatechip',
-    secret: process.env.SECRET,
+    secret: process.env.SECRET || "This is the other secret",
     cookie: {
       maxAge: 30000,
       secure: false,
