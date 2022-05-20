@@ -10,6 +10,7 @@ function find() {
   resolves to an ARRAY with all users that match the filter condition
  */
 function findBy(filter) {
+  console.log(filter);
  return db('users').where(filter);
 }
 

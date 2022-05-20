@@ -18,11 +18,7 @@ router.get('/', (req, res) => {
 //   .catch( err => res.status(500).json(err))
 //  })
 
- router.post('/auth/login', (req, res) => {
-  users.findBy(req.body)
-  .then(user => res.status(200).json(user))
-  .catch( err => res.status(500).json(err))
- })
+ 
 
 
 /**
