@@ -1,15 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const {checkUsernameFree, checkUsernameExists, checkPasswordLength, restricted} = require('./auth-middleware');
+const {checkUsernameFree, checkUsernameExists, checkPasswordLength} = require('./auth-middleware');
 const users = require('../users/users-model');
 const bcrypt = require('bcryptjs');
 
 router.post('/register', checkUsernameFree, checkPasswordLength, (req,res) => {
   const credentials = req.body;
-  const hash = bcrypt.hashSync(credentials.password, 14);
+  const hash = bcrypt.hashSync(credentials.password, 2);
   credentials.password = hash;
   users.add(credentials)
-  .then(users => res.status(201).json(users))
+  .then(user => res.status(201).json(user))
  .catch( err => res.status(500).json(err))
 })
 
