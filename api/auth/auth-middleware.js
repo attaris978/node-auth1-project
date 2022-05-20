@@ -7,8 +7,12 @@ const users = require('../users/users-model');
     "message": "You shall not pass!"
   }
 */
-function restricted() {
-
+function restricted(req, res, next) {
+  if (req.session && req.session.user) {
+    next();
+  } else {
+    res.status(401).json({message: "You shall not pass!"});
+  }
 }
 
 /*
@@ -22,7 +26,7 @@ function restricted() {
 async function checkUsernameFree (req, res, next) {
   const checkedUser = await users.findBy({username: req.body.username});
   if (checkedUser[0]?.user_id) {
-    res.status(422).send("Username taken");
+    res.status(422).json({message:"Username taken"});
   } else {
     next();
   }
@@ -41,7 +45,7 @@ async function checkUsernameExists(req, res, next) {
   if (checkedUser[0]?.user_id) {
     next()
   } else {
-    res.status(401).send("Invalid credentials");
+    res.status(401).json({message: "Invalid credentials"});
   }
 }
 
@@ -57,7 +61,7 @@ function checkPasswordLength(req, res, next) {
   if (req.body.password?.length > 3) {
     next()
   } else {
-    res.status(422).send("Password must be longer than 3 chars")
+    res.status(422).json({message: "Password must be longer than 3 chars"})
   }
 }
 

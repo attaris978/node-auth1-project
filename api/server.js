@@ -1,8 +1,10 @@
 const express = require("express");
 const helmet = require("helmet");
 const cors = require("cors");
+require('dotenv').config();
 const usersRouter = require('../api/users/users-router');
 const authRouter = require('../api/auth/auth-router');
+const session = require('./session');
 /**
   Do what needs to be done to support sessions with the `express-session` package!
   To respect users' privacy, do NOT send them a cookie unless they log in.
@@ -18,9 +20,11 @@ const authRouter = require('../api/auth/auth-router');
 
 const server = express();
 
+
 server.use(helmet());
 server.use(express.json());
 server.use(cors());
+server.use(session);
 server.use('/api/users', usersRouter);
 server.use('/api/auth', authRouter);
 server.get("/", (req, res) => {
